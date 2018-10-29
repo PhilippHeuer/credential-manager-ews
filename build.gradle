@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'maven-publish'
+    id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+    id 'com.jfrog.bintray' version '1.8.4'
+    id 'com.jfrog.artifactory' version '4.8.1'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // SLF4J API
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.0.13'
+
+    // Credential Manager
+    compile group: 'com.github.philippheuer.credentialmanager', name: 'credentialmanager', version: '0.0.8'
+
+    // HTTP Server
+    compile group: 'io.ratpack', name: 'ratpack-core', version: '1.5.4'
+
+    // Jackson (JSON)
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.7'
+
+    // Testing
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.3.1'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.3.1'
+
+    // Getter & Setter
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+    testCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+}
+
+// Artifact Info
+project.ext {
+    groupId = 'com.github.philippheuer'
+    artifactNamespace = 'philippheuer'
+    artifactName = 'CredentialManager-EWS'
+    artifactVersion = String.valueOf(System.getenv("CI_COMMIT_REF_NAME")).replace("v", "") + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
+    artifactDescription = 'Embedded Webserver for the CredentialManager'
+    websiteUrl = 'https://github.com/philippheuer/credentialmanager-ews'
+    issueTrackerUrl = 'https://github.com/philippheuer/credentialmanager-ews/issues'
+    vcsUrl = 'https://github.com/philippheuer/credentialmanager-ews.git'
+}
+
+// Deployment
+apply from: 'deployment.gradle'
