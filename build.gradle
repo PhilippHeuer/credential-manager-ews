@@ -39,7 +39,7 @@ dependencies {
 project.ext {
     groupId = 'com.github.philippheuer.credentialmanager'
     artifactNamespace = 'philippheuer'
-    artifactName = 'Credential-Manager-EWS'
+    artifactName = 'CredentialManager-EWS'
     artifactVersion = String.valueOf(System.getenv("CI_COMMIT_REF_NAME")).replace("v", "") + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
     artifactDescription = 'Embedded Webserver for the CredentialManager'
     websiteUrl = 'https://github.com/philippheuer/credential-manager-ews'
