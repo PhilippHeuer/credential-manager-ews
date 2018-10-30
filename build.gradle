@@ -37,7 +37,7 @@ dependencies {
 
 // Artifact Info
 project.ext {
-    groupId = 'com.github.philippheuer'
+    groupId = 'com.github.philippheuer.credentialmanager'
     artifactNamespace = 'philippheuer'
     artifactName = 'Credential-Manager-EWS'
     artifactVersion = String.valueOf(System.getenv("CI_COMMIT_REF_NAME")).replace("v", "") + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
