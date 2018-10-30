@@ -23,6 +23,9 @@ dependencies {
     // HTTP Server
     compile group: 'io.ratpack', name: 'ratpack-core', version: '1.5.4'
 
+    // Commons Lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+
     // Jackson (JSON)
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.7'
 

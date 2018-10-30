@@ -2,6 +2,7 @@ package com.github.philippheuer.credentialmanager.authcontroller;
 
 import com.github.philippheuer.credentialmanager.api.IAuthenticationController;
 import com.github.philippheuer.credentialmanager.identityprovider.OAuth2IdentityProvider;
+import com.github.philippheuer.credentialmanager.util.WebsiteUtils;
 import com.github.philippheuer.credentialmanager.webserver.WebServer;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,11 +34,14 @@ public class GUIAuthController implements IAuthenticationController {
      * @param scopes Requested scopes
      */
     public void startOAuth2ImplicitGrantType(OAuth2IdentityProvider oAuth2IdentityProvider, String overwriteRedirectUrl, List<Object> scopes) {
-        // generate redirect url
-        String redirectUrl = oAuth2IdentityProvider.getAuthenticationUrl(overwriteRedirectUrl, scopes);
+        // generate auth url
+        String authUrl = oAuth2IdentityProvider.getAuthenticationUrl(overwriteRedirectUrl, scopes);
 
         // start integrated webserver
         webServer.startAuthListener();
+
+        // open website
+        WebsiteUtils.openWebpage(authUrl);
     }
 
 }
