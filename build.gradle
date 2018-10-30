@@ -18,7 +18,7 @@ dependencies {
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.0.13'
 
     // Credential Manager
-    compile group: 'com.github.philippheuer.credentialmanager', name: 'credentialmanager', version: '0.0.8'
+    compile group: 'com.github.philippheuer.credentialmanager', name: 'credentialmanager', version: '0.0.13'
 
     // HTTP Server
     compile group: 'io.ratpack', name: 'ratpack-core', version: '1.5.4'

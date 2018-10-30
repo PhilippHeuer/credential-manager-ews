@@ -1,5 +1,9 @@
 package com.github.philippheuer.credentialmanager.webserver;
 
+import com.github.philippheuer.credentialmanager.domain.AuthenticationController;
+import com.github.philippheuer.credentialmanager.domain.Credential;
+import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import ratpack.server.RatpackServer;
@@ -7,15 +11,21 @@ import ratpack.server.RatpackServer;
 @Slf4j
 public class WebServer {
 
-    public static void main(String[] args) {
-        WebServer webServer = new WebServer();
-        webServer.startAuthListener();
-    }
+    /**
+     * Holds the Auth Controller
+     */
+    @Setter
+    private AuthenticationController authenticationController;
 
     /**
      * Holds the RatPack Server Instance
      */
     private RatpackServer ratpackServer = null;
+
+    /**
+     * Server Port
+     */
+    private final Integer httpPort = 31;
 
     /**
      * Starts the Auth Listener
@@ -27,13 +37,23 @@ public class WebServer {
         // start listener
         try {
             this.ratpackServer = RatpackServer.start(spec -> spec
-                    .serverConfig(s -> s.port(8080))
+                    .serverConfig(s -> s.port(httpPort))
                     .handlers(chain -> chain
-                            .get(ctx -> ctx.render("Hello Devoxx!"))
-                            .get("/oauth2", ctx -> {
+                            .get(ctx -> ctx.render("Temporary OAuth2 Server!"))
+                            .get("/process_oauth", ctx -> {
+                                String oAuth2Token = ctx.getRequest().getQueryParams().get("code");
+                                String oAuth2State = ctx.getRequest().getQueryParams().get("state");
 
+                                if (oAuth2State.contains("|")) {
+                                    // contains csrf check & provider name
+                                    String providerName = oAuth2State.split("|")[0];
+                                    String csrfValue = oAuth2State.split("|")[1];
 
-                                ctx.render("Welcome");
+                                    Credential credential = new OAuth2Credential(providerName, null, oAuth2Token);
+                                    this.authenticationController.getCredentialManager().addCredential(providerName, credential);
+                                }
+
+                                ctx.render("Authentication successfully!");
                             })
                     )
             );

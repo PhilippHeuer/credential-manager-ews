@@ -1,6 +1,6 @@
 package com.github.philippheuer.credentialmanager.authcontroller;
 
-import com.github.philippheuer.credentialmanager.api.IAuthenticationController;
+import com.github.philippheuer.credentialmanager.domain.AuthenticationController;
 import com.github.philippheuer.credentialmanager.identityprovider.OAuth2IdentityProvider;
 import com.github.philippheuer.credentialmanager.util.WebsiteUtils;
 import com.github.philippheuer.credentialmanager.webserver.WebServer;
@@ -14,7 +14,7 @@ import java.util.List;
  * Will start a temporary local webserver to get the result.
  */
 @Slf4j
-public class GUIAuthController implements IAuthenticationController {
+public class GUIAuthController extends AuthenticationController {
 
     /**
      * Holds the WebServer
@@ -35,9 +35,10 @@ public class GUIAuthController implements IAuthenticationController {
      */
     public void startOAuth2ImplicitGrantType(OAuth2IdentityProvider oAuth2IdentityProvider, String overwriteRedirectUrl, List<Object> scopes) {
         // generate auth url
-        String authUrl = oAuth2IdentityProvider.getAuthenticationUrl(overwriteRedirectUrl, scopes);
+        String authUrl = oAuth2IdentityProvider.getAuthenticationUrl(overwriteRedirectUrl, scopes, null);
 
         // start integrated webserver
+        webServer.setAuthenticationController(this);
         webServer.startAuthListener();
 
         // open website
