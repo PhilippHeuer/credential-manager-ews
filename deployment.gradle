@@ -131,8 +131,6 @@ bintray {
 		vcsUrl = project.vcsUrl
 		labels = []
 		publicDownloadNumbers = true
-		githubRepo = String.valueOf(project.artifactNamespace).toLowerCase() + "/" + String.valueOf(project.artifactName).toLowerCase()
-		githubReleaseNotesFile = 'README.md' // Github readme file
 		version {
 			name = project.version
 			vcsTag = project.version
