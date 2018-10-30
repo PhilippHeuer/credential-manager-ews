@@ -25,7 +25,7 @@ public class WebServer {
     /**
      * Server Port
      */
-    private final Integer httpPort = 31;
+    private final Integer httpPort = 31921;
 
     /**
      * Starts the Auth Listener
