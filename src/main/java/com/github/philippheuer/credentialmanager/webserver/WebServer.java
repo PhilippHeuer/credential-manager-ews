@@ -40,7 +40,7 @@ public class WebServer {
                     .serverConfig(s -> s.port(httpPort))
                     .handlers(chain -> chain
                             .get(ctx -> ctx.render("Temporary OAuth2 Server!"))
-                            .get("/process_oauth", ctx -> {
+                            .get("process_oauth2", ctx -> {
                                 String oAuth2Token = ctx.getRequest().getQueryParams().get("code");
                                 String oAuth2State = ctx.getRequest().getQueryParams().get("state");
 
