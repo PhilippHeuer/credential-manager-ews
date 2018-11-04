@@ -41,21 +41,29 @@ public class WebServer {
                     .handlers(chain -> chain
                             .get(ctx -> ctx.render("Temporary OAuth2 Server!"))
                             .get("process_oauth2", ctx -> {
-                                String oAuth2Code = ctx.getRequest().getQueryParams().get("code");
-                                String oAuth2State = ctx.getRequest().getQueryParams().get("state");
-                                log.debug("Received oauth2 request with code " + oAuth2Code + " and state " + oAuth2State);
+                                try {
+                                    String oAuth2Code = ctx.getRequest().getQueryParams().get("code");
+                                    String oAuth2State = ctx.getRequest().getQueryParams().get("state");
+                                    log.debug("Received oauth2 request with code " + oAuth2Code + " and state " + oAuth2State);
 
-                                if (oAuth2State.contains("|")) {
-                                    // contains csrf check & provider name
-                                    String providerName = oAuth2State.split("|")[0];
-                                    String csrfValue = oAuth2State.split("|")[1];
+                                    if (oAuth2State.contains("|")) {
+                                        // contains csrf check & provider name
+                                        String providerName = oAuth2State.split("|")[0];
+                                        String csrfValue = oAuth2State.split("|")[1];
+                                        log.trace("Provider Name: " + providerName);
+                                        log.trace("CSRF: " + csrfValue);
 
-                                    // add credential
-                                    OAuth2Credential credential = authenticationController.getCredentialManager().getOAuth2IdentityProviderByName(providerName).get().getCredentialByCode(oAuth2Code);
-                                    this.authenticationController.getCredentialManager().addCredential(providerName, credential);
+                                        // add credential
+                                        log.debug("Trying to find OAuth2IdentityProvider by Name [" + providerName + "]");
+                                        OAuth2Credential credential = authenticationController.getCredentialManager().getOAuth2IdentityProviderByName(providerName).get().getCredentialByCode(oAuth2Code);
+                                        this.authenticationController.getCredentialManager().addCredential(providerName, credential);
+                                    }
+
+                                    ctx.render("Authentication successfully!");
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                    ctx.render("Error: " + ex.getMessage());
                                 }
-
-                                ctx.render("Authentication successfully!");
                             })
                     )
             );
