@@ -48,8 +48,8 @@ public class WebServer {
 
                                     if (oAuth2State.contains("|")) {
                                         // contains csrf check & provider name
-                                        String providerName = oAuth2State.split("|")[0];
-                                        String csrfValue = oAuth2State.split("|")[1];
+                                        String providerName = oAuth2State.split("\\|")[0];
+                                        String csrfValue = oAuth2State.split("\\|")[1];
                                         log.trace("Provider Name: " + providerName);
                                         log.trace("CSRF: " + csrfValue);
 
