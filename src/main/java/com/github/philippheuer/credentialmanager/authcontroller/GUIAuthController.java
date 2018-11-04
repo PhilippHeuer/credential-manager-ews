@@ -33,7 +33,7 @@ public class GUIAuthController extends AuthenticationController {
      * @param overwriteRedirectUrl Redirect url
      * @param scopes Requested scopes
      */
-    public void startOAuth2ImplicitGrantType(OAuth2IdentityProvider oAuth2IdentityProvider, String overwriteRedirectUrl, List<Object> scopes) {
+    public void startOAuth2AuthorizationCodeGrantType(OAuth2IdentityProvider oAuth2IdentityProvider, String overwriteRedirectUrl, List<Object> scopes) {
         // generate auth url
         String authUrl = oAuth2IdentityProvider.getAuthenticationUrl(overwriteRedirectUrl, scopes, null);
 
