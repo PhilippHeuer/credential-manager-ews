@@ -8,6 +8,8 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import ratpack.server.RatpackServer;
 
+import java.util.regex.Pattern;
+
 @Slf4j
 public class WebServer {
 
@@ -48,8 +50,8 @@ public class WebServer {
 
                                     if (oAuth2State.contains("|")) {
                                         // contains csrf check & provider name
-                                        String providerName = oAuth2State.split("\\|")[0];
-                                        String csrfValue = oAuth2State.split("\\|")[1];
+                                        String providerName = oAuth2State.split(Pattern.quote("|"))[0];
+                                        String csrfValue = oAuth2State.split(Pattern.quote("|"))[1];
                                         log.trace("Provider Name: " + providerName);
                                         log.trace("CSRF: " + csrfValue);
 
